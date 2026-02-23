@@ -1,4 +1,5 @@
-# Jewel Scheduler Backend (Node.js + Express + Supabase + Prisma)
+# Timewyce Server
+# (Node.js + Express + Supabase + Prisma)
 
 This is a **complete scaffold** matching your requested file structure, with working REST routes for:
 - Events (list/get/create/update/cancel [soft])
@@ -15,9 +16,53 @@ cp .env.example .env
 ```
 
 Fill `.env`:
-- `DATABASE_URL` -> your Supabase Postgres connection string
-- `SUPABASE_JWKS_URL` -> `https://<project-ref>.supabase.co/auth/v1/keys`
-- `SUPABASE_URL` and keys (optional, only needed if you later do admin ops)
+
+  `# ─── Server ────────────────────────────────────────────────────────────────────`
+- `PORT` -> `36363`
+- `NODE_ENV` -> `development`
+- `LOG_LEVEL` ->`debug`
+
+  `# ─── Database (Prisma + Supabase PostgreSQL) ───────────────────────────────────`
+  `# Get from: Supabase > Project Settings > Database > Connection string (URI)`
+- `DATABASE_URL` ->  -> your Supabase Postgres connection string
+- `DATABASE_DIRECT_URL` -> direct url
+
+  `# ─── Supabase ──────────────────────────────────────────────────────────────────`
+  `# Get from: Supabase > Project Settings > API`
+- `SUPABASE_URL` -> `https://<superbase_id>.supabase.co`
+- `SUPABASE_ANON_KEY` -> supabase annon key
+- `SUPABASE_SERVICE_ROLE_KEY` -> Supabase service role key
+
+- `SUPABASE_JWKS_URL` -> `https://<superbase_id>.supabase.co/auth/v1/.well-known/jwks.json`
+
+  `# ─── Anthropic Claude ──────────────────────────────────────────────────────────`
+- `# Get from:`https://console.anthropic.com`
+- `ANTHROPIC_API_KEY` -> `sk-...`
+
+  `# ─── Confirmation Token ────────────────────────────────────────────────────────`
+- `CONFIRMATION_TOKEN_SECRET` -> Confirmation token
+- `CONFIRMATION_TOKEN_TTL_MINUTES` -> `30`
+
+  `# ─── JWT (legacy JS layer) ─────────────────────────────────────────────────────`
+- `JWT_SECRET` -> Jwt token here
+- `JWT_EXPIRES_IN` -> `7d`
+- `REFRESH_TOKEN_SECRET` -> Refresh token
+- `REFRESH_TOKEN_EXPIRES_IN`-> `30d`
+
+  `# ─── Rate Limiting ────────────────────────────────────────────────────────────`
+- `RATE_LIMIT_WINDOW_MS` -> `60000`
+- `RATE_LIMIT_MAX` -> `60`
+- `
+   `# ─── Google Calendar  and auth ────────────────────────────────────`
+- `GOOGLE_CLIENT_ID`  -> Google client id
+- `GOOGLE_CLIENT_SECRET` -> Google client secret
+- `GOOGLE_REDIRECT_URI` -> `<API_here>/google/callback`
+
+   `# ─── JWT ──────────────────────────────────────────────────────────────────────────`
+- `JWT_AUDIENCE` -> Audience here
+- `JWT_ISSUER` -> `https://<project-ref>.supabase.co/auth/v1/`
+- `
+- `API_PREFIX` -> `api`
 
 ## 2) Prisma
 
