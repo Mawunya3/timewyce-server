@@ -36,7 +36,7 @@ Fill `.env`:
 - `SUPABASE_JWKS_URL` -> `https://<superbase_id>.supabase.co/auth/v1/.well-known/jwks.json`
 
   `# ─── Anthropic Claude ──────────────────────────────────────────────────────────`
-- `# Get from:`https://console.anthropic.com`
+- `# Get from: https://console.anthropic.com`
 - `ANTHROPIC_API_KEY` -> `sk-...`
 
   `# ─── Confirmation Token ────────────────────────────────────────────────────────`
@@ -52,7 +52,7 @@ Fill `.env`:
   `# ─── Rate Limiting ────────────────────────────────────────────────────────────`
 - `RATE_LIMIT_WINDOW_MS` -> `60000`
 - `RATE_LIMIT_MAX` -> `60`
-- `
+
    `# ─── Google Calendar  and auth ────────────────────────────────────`
 - `GOOGLE_CLIENT_ID`  -> Google client id
 - `GOOGLE_CLIENT_SECRET` -> Google client secret
