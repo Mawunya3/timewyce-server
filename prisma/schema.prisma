@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_DIRECT_URL")
+}
+
+enum EventStatus {
+  scheduled
+  cancelled
+  completed
+}
+
+model Event {
+  id           String      @id @default(cuid())
+  userId       String
+  title        String
+  startTime    DateTime
+  endTime      DateTime
+  status       EventStatus @default(scheduled)
+  metadata     Json        @default("{}")
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([userId, startTime])
+  @@index([status])
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  timezone  String   @default("UTC")
+  preferences Json   @default("{}")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HistoryLog {
+  id        String   @id @default(cuid())
+  userId    String
+  action    String
+  payload   Json     @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  payload   Json     @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([type])
+}
+
+model AgentRun {
+  id          String   @id @default(cuid())
+  userId      String
+  intent      String
+  input       Json     @default("{}")
+  output      Json     @default("{}")
+  needsConfirmation Boolean @default(false)
+  confirmationToken String?
+  status      String   @default("done") // done|pending_confirmation|confirmed
+  createdAt   DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([status])
+}
+
+model Agent {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  name      String
+  prompt    String
+  version   String   @default("1")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model GoogleCalendarState {
+  id         String   @id @default(cuid())
+  userId     String
+  calendarId String
+  syncToken  String?
+  lastSyncAt DateTime?
+  lastError  String?
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, calendarId])
+}
+
